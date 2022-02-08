@@ -1,0 +1,189 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.0                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho)"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-06;
+        relTol          0.1;
+    }
+
+   "(rho)Final"
+    {
+        $rho;
+        tolerance       1e-06;
+        relTol          0;
+    }
+    
+    "(G)"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-08;
+        relTol          0.1;
+    }
+
+   "(G)Final"
+    {
+        $rho;
+        tolerance       1e-08;
+        relTol          0;
+    }
+
+    p
+    {
+        solver          GAMG;
+        tolerance       1e-06;
+        relTol          0.01;
+        smoother        GaussSeidel;
+    }
+
+    pFinal
+    {
+        $p;
+        tolerance       1e-06;
+        relTol          0;
+    }
+    "Ii.*"
+    {
+        solver              GAMG;
+        tolerance           1e-4;
+        relTol              0;
+        smoother            symGaussSeidel;
+        maxIter             1;
+        nPostSweeps         1;
+    }
+
+    "G.*"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-04;
+        relTol          0;
+    }
+
+    "(U|h|R|k|epsilon)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-06;
+        relTol          0.1;
+    }
+
+    "(U|h|R|k|epsilon)Final"
+    {
+        $U;
+        tolerance       1e-06;
+        relTol          0;
+    }
+
+    "(Yi|tar|N2|CH2O|O|CH4|CH3|CH2|H|NCO|CH2CHO|CO|HO2|HNO|OH|H2O|C2H6|C2H5|C2H4|C2H3|O2|CH3O|C2H2|NO|NH|N2O|AR|CO2|NH3|NH2|HCO|HCN|H2|N)"
+
+    {
+        $h;
+    }
+
+    "(Yi|tar|N2|CH2O|O|CH4|CH3|CH2|H|NCO|CH2CHO|CO|HO2|HNO|OH|H2O|C2H6|C2H5|C2H4|C2H3|O2|CH3O|C2H2|NO|NH|N2O|AR|CO2|NH3|NH2|HCO|HCN|H2|N)Final"
+    {
+        $Yi;
+        tolerance       1e-06;
+        relTol          0;
+    }
+
+    
+    "tempDiffScalar"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+
+    "tempDiffVector"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+    
+    "tempGasDiffScalar"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+    
+    "tempGasDiffVector"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+    
+    "tempExplicitDiffScalar"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+    
+    "tempExplicitDiffVector"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+    
+    
+    
+}
+
+PIMPLE
+{
+    transonic       no;
+    nCorrectors     3;
+    nNonOrthogonalCorrectors 0;
+    momentumPredictor yes;
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+}
+
+relaxationFactors
+{
+    fields
+    {
+        ".*"            1;
+    }
+    equations
+    {
+        ".*"            1;
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,14 @@
+/* Radiation model */
+radiationModels/P1P/P1P.C
+radiationModels/fvDOMP/fvDOMP.C
+radiationModels/fvDOMP/radiativeIntensityRayP/radiativeIntensityRayP.C
+
+/* Absorption/Emission model */
+absorptionEmissionModels/greyMeanNew/greyMeanNew.C
+absorptionEmissionModels/greyMeanCombustionNew/greyMeanCombustionNew.C
+
+/* Boundary conditions */
+derivedFvPatchFields/greyDiffusiveRadiation/greyDiffusiveRadiationMixedFvPatchScalarFieldFvDOMP.C
+
+
+LIB = $(FOAM_USER_LIBBIN)/libmyRadiationModels

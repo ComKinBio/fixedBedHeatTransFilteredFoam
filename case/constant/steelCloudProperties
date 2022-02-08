@@ -1,0 +1,228 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      coalCloud1Properties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution
+{
+    active          true;
+    transient       yes;
+    coupled         true;
+    cellValueSourceCorrection off;
+
+    sourceTerms
+    {
+        schemes
+        {
+            rho             semiImplicit 1;
+            U               semiImplicit 1;
+            Yi              semiImplicit 1;
+            h               semiImplicit 1;
+            radiation       semiImplicit 1;
+        }
+    }
+
+    interpolationSchemes
+    {
+        rho             cell;
+        U               cellPoint;
+        thermo:mu       cell;
+        T               cell;
+        Cp              cell;
+        kappa           cell;
+        p               cell;
+        G               cell;
+        alpha           cell;
+        rhoavg          cell;
+        Uavg            cell;
+        muavg           cell;
+        Tavg            cell;
+        cpavg           cell;
+        kappaavg        cell;
+    }
+
+    integrationSchemes
+    {
+        U               Euler;
+        T               analytical;
+    }
+}
+
+constantProperties
+{
+    parcelTypeId    1;
+    
+    //- added properties
+    usePpConduction yes;//yes;//
+    usePpradiation yes;//yes;//
+    useFilteredEulerianFields yes;//yes;//
+    
+    parcelShape     1;
+    xi0             -0.004142616;
+    rhoMin          1e-15;
+    TMin            273;
+    pMin            1000;
+    minParticleMass 1e-15;
+
+    rho0            7810;// add
+    T0              338;// add
+    Cp0             553;// add
+    kp0             40.1;// add
+
+    youngsModulus   1e11;
+    poissonsRatio   0.35;
+
+    epsilon0        0.8;//particle emissivity []
+    f0              0.5;
+
+    Pr              0.7;
+    constantVolume  false; // add
+    
+    alphaMin        0.20;
+    
+    diffusionBandWidth  0.018;
+    diffusionSteps      6;
+    
+    diffusionBandWidthRadia  0.018;        
+    diffusionBandWidthHeat   0.018;
+    diffusionBandWidthMass   0.018;
+    diffusionBandWidthMomentum  0.018;
+
+}
+
+subModels
+{
+    particleForces
+    {
+        ErgunWenYuDrag
+        {
+            alphac alpha;
+        }
+        gravity;
+    }
+
+    injectionModels
+    {
+        model1
+        {
+            type            manualInjection;
+            massTotal       0;
+            SOI             0;
+            parcelBasisType fixed;
+            nParticle       1;
+            positionsFile   "steelCloudPositions";
+            U0              (0 0 0);
+            flowRateProfile constant 1;
+            sizeDistribution
+            {
+                type        fixedValue;
+                fixedValueDistribution
+                {
+                    value   0.012;
+                }
+            }
+        }
+    }
+    
+    dispersionModel none; // add
+
+    patchInteractionModel localInteraction;
+    
+    localInteractionCoeffs    
+    {
+       patches
+       (
+          walls
+          {
+                type rebound;
+                e    0.97;
+                mu   0.09;
+          }  
+          outlet
+          {
+                type rebound;
+                e    0.97;
+                mu   0.09;
+          }
+         inlet
+          {
+                type rebound;
+                e    0.97;
+                mu   0.09;
+	      }
+       );
+    }
+    
+    collisionModel pairCollisionHeat;//pairCollision;
+
+    pairCollisionHeatCoeffs
+    {
+        maxInteractionDistance  0.012;
+
+        writeReferredParticleCloud no;
+
+        pairModel pairSpringSliderDashpotHeat;
+
+        pairSpringSliderDashpotHeatCoeffs
+        {
+            useEquivalentSize   no;
+            alpha               0.07051;
+            b                   1.5;
+            mu                  0.3;
+            cohesionEnergyDensity 0;
+            collisionResolutionSteps 3;
+        };
+        
+        wallModel wallSpringSliderDashpot;
+
+        wallSpringSliderDashpotCoeffs
+        {
+            useEquivalentSize no;
+            collisionResolutionSteps 3;
+            youngsModulus   3e9;
+            poissonsRatio   0.3;
+            alpha           0.07051;
+            b               1.5;
+            mu              0.3;
+            k               0.19;
+            cohesionEnergyDensity 0;
+        };
+
+        U     U;
+    }
+    
+    stochasticCollisionModel none;
+
+    heatTransferModel Wakao;//RanzMarshall;//
+    
+    surfaceFilmModel none;
+
+    radiation       off;
+
+    
+    WakaoCoeffs//RanzMarshallCoeffs//
+    {
+        BirdCorrection  false;
+    }
+
+    
+}
+
+
+cloudFunctions
+{}
+
+
+// ************************************************************************* //

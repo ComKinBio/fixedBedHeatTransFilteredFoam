@@ -1,0 +1,144 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      radiationProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+radiation       off;
+
+// solverFreq      10;
+// 
+// radiationModel  P1;
+
+radiationModel  none;//fvDOMP;
+
+
+fvDOMPCoeffs
+{
+    nPhi    2;          // azimuthal angles in PI/2 on X-Y.(from Y to X)
+    nTheta  2;          // polar angles in PI (from Z to X-Y plane)
+    tolerance   1e-2;   // convergence tolerance for radiation iteration
+    maxIter 3;          // maximum number of iterations
+}
+
+// Number of flow iterations per radiation iteration
+solverFreq 10;
+
+
+noRadiation
+{
+}
+
+P1Coeffs
+{
+    C               C [ 0 0 0 0 0 0 0 ] 0;
+}
+
+absorptionEmissionModel binary;
+
+binaryCoeffs
+{
+    model1
+    {
+        absorptionEmissionModel greyMeanCombustionNew;
+        
+        greyMeanCombustionNewCoeffs
+        {
+            lookUpTableFileName      none;
+
+            EhrrCoeff                0.0;
+
+            O2
+            {
+                Tcommon         200;
+                invTemp         true;
+                Tlow            200;
+                Thigh           2500;
+
+                loTcoeffs
+                (
+                    0
+                    0
+                    0
+                    0
+                    0
+                    0
+                );
+                hiTcoeffs
+                (
+                    0
+                    0
+                    0
+                    0
+                    0
+                    0
+                );
+            }
+
+
+            N2
+            {
+                Tcommon         200;
+                invTemp         true;
+                Tlow            200;
+                Thigh           2500;
+
+                loTcoeffs
+                (
+                    0
+                    0
+                    0
+                    0
+                    0
+                    0
+                );
+                hiTcoeffs
+                (
+                    0
+                    0
+                    0
+                    0
+                    0
+                    0
+                );
+            }
+        }
+    }
+    model2
+    {
+        absorptionEmissionModel cloudAvg;
+        cloudAvgCoeffs
+        {
+            cloudNames
+            (
+                coalCloud1
+//                 limestoneCloud1
+            );
+        }
+    }
+}
+
+scatterModel    cloudAvg;
+
+cloudAvgCoeffs
+{
+    cloudNames
+    (
+        coalCloud1
+     //   limestoneCloud1
+    );
+}
+
+
+// ************************************************************************* //

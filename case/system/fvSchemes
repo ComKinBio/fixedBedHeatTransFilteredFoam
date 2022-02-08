@@ -1,0 +1,81 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1806                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         Euler;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+    grad(S)         Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+
+    div(alphaRhoPhi,U)      Gauss upwind;
+    div((alphaf*phid),p)     Gauss upwind;
+    div(alphaRhoPhi,K)      Gauss linear;
+    div(alphaRhoPhi,he)     Gauss upwind;
+    div(alphaRhoPhi,k)      Gauss upwind;
+    div(alphaRhoPhi,epsilon) Gauss upwind;
+    div(U)          Gauss linear;
+    div((((alpha*rho)*nuEff)*dev2(T(grad(U))))) Gauss linear;
+    div(alphaRhoPhi,Yi_h)   Gauss upwind;
+    div(Ji,Ii_h)    Gauss upwind;
+    div(S)          upwind;
+    div((DT&grad(S)))   Gauss linear;
+    
+}
+
+laplacianSchemes
+{
+    default         Gauss linear orthogonal;
+    
+    laplacian(DT,tempAlphacDiffScalar) Gauss linear corrected;
+    laplacian(DT,tempApDiffScalar) Gauss linear corrected;
+    laplacian(DT,tempEpDiffScalar) Gauss linear corrected;
+    laplacian(DT,tempSigmapDiffScalar) Gauss linear corrected;
+    laplacian(DT,tempSrhoDiffWorkField) Gauss linear corrected;
+    laplacian(DT,tempSrhoRhoDiffWorkField) Gauss linear corrected;
+    laplacian(DT,tempSYiDiffWorkField) Gauss linear corrected;
+    laplacian(DT,tempShDiffWorkField) Gauss linear corrected;
+    laplacian(DT,tempSUDiffWorkField) Gauss linear corrected;
+    laplacian(DT,tempDiffWorkField) Gauss linear corrected;
+    laplacian(DT,S) Gauss linear corrected;
+    laplacian((interpolate(alpha)*DT),S) Gauss linear corrected;
+    diffusion GaussFOut linear corrected;
+    laplacian(DTr,S) GaussFOut linear corrected;
+    laplacian((interpolate(alpha)*DTr),S) GaussFOut linear corrected;
+    gasFilterDiffusion2 GaussFOut linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         orthogonal;
+}
+
+
+// ************************************************************************* //

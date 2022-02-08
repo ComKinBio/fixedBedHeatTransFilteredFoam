@@ -1,0 +1,8 @@
+
+twoGridFomulation/coarserGrid.C
+
+sourceFilter/sourceFilter.C
+
+gasFilter/gasFilter.C
+
+LIB = $(FOAM_USER_LIBBIN)/libcoarserGrid

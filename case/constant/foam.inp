@@ -1,0 +1,19 @@
+elements        
+3
+(
+    O
+    N
+    Ar
+);
+
+species
+(
+    N2
+    O2
+    AR
+);
+
+reactions
+{
+
+}

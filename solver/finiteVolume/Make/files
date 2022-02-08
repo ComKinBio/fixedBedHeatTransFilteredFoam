@@ -1,0 +1,8 @@
+
+laplacianSchemes = finiteVolume/laplacianSchemes
+$(laplacianSchemes)/laplacianScheme2/laplacianSchemes2.C
+$(laplacianSchemes)/gaussFOutLaplacianScheme/gaussFOutLaplacianSchemes.C
+
+finiteVolume/fvc/fvcPlus.C
+
+LIB = $(FOAM_USER_LIBBIN)/libfiniteVolumePlus
