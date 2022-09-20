@@ -9,7 +9,6 @@ wmake -j $targetType radiationModels
 wmake -j $targetType basic
 wmake -j $targetType intermediate
 wmake -j $targetType turbulence
-wmake -j $targetType coalCombustion
 wmake -j $targetType coalChemistryTurbulenceModels
 wmake -j $targetType
 

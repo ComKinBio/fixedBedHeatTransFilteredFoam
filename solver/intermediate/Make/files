@@ -10,8 +10,7 @@ DERIVEDCLOUDS=$(CLOUDS)/derived
 /* Cloud base classes */
 $(BASECLOUDS)/kinematicCloud/kinematicCloud.C
 $(BASECLOUDS)/thermoCloud/thermoCloud.C
-$(BASECLOUDS)/reactingCloud/reactingCloud.C
-$(BASECLOUDS)/reactingMultiphaseCloud/reactingMultiphaseCloud.C
+
 
 
 /* kinematic parcel sub-models */
@@ -30,18 +29,6 @@ $(KINEMATICCOLLIDINGPARCEL)/makeBasicKinematicCollidingParcelSubmodels.C
 THERMOPARCEL=$(DERIVEDPARCELS)/basicThermoParcel
 $(THERMOPARCEL)/defineBasicThermoParcel.C
 $(THERMOPARCEL)/makeBasicThermoParcelSubmodels.C
-
-
-/* reacting parcel sub-models */
-REACTINGPARCEL=$(DERIVEDPARCELS)/basicReactingParcel
-$(REACTINGPARCEL)/defineBasicReactingParcel.C
-$(REACTINGPARCEL)/makeBasicReactingParcelSubmodels.C
-
-
-/* reacting multiphase parcel sub-models */
-REACTINGMPPARCEL=$(DERIVEDPARCELS)/basicReactingMultiphaseParcel
-$(REACTINGMPPARCEL)/defineBasicReactingMultiphaseParcel.C
-$(REACTINGMPPARCEL)/makeBasicReactingMultiphaseParcelSubmodels.C
 
 
 /* kinematic MPPIC parcel sub-models */
@@ -70,16 +57,6 @@ THERMOINJECTION=submodels/Thermodynamic/InjectionModel
 $(THERMOINJECTION)/ThermoLookupTableInjection/thermoParcelInjectionData.C
 $(THERMOINJECTION)/ThermoLookupTableInjection/thermoParcelInjectionDataIO.C
 $(THERMOINJECTION)/ThermoLookupTableInjection/thermoParcelInjectionDataIOList.C
-
-REACTINGINJECTION=submodels/Reacting/InjectionModel
-$(REACTINGINJECTION)/ReactingLookupTableInjection/reactingParcelInjectionData.C
-$(REACTINGINJECTION)/ReactingLookupTableInjection/reactingParcelInjectionDataIO.C
-$(REACTINGINJECTION)/ReactingLookupTableInjection/reactingParcelInjectionDataIOList.C
-
-REACTINGMPINJECTION=submodels/ReactingMultiphase/InjectionModel
-$(REACTINGMPINJECTION)/ReactingMultiphaseLookupTableInjection/reactingMultiphaseParcelInjectionData.C
-$(REACTINGMPINJECTION)/ReactingMultiphaseLookupTableInjection/reactingMultiphaseParcelInjectionDataIO.C
-$(REACTINGMPINJECTION)/ReactingMultiphaseLookupTableInjection/reactingMultiphaseParcelInjectionDataIOList.C
 
 MPPICPARTICLESTRESS=submodels/MPPIC/ParticleStressModels
 $(MPPICPARTICLESTRESS)/ParticleStressModel/ParticleStressModel.C

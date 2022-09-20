@@ -37,9 +37,7 @@ Description
 #include "turbulentFluidThermoModel.H"
 #include "coalChemistryTurbulenceModel.H"
 #include "basicThermoCloud.H"
-// #include "coalCloud.H"
 #include "psiReactionThermo.H"
-#include "CombustionModel.H"
 #include "fvOptions.H"
 #include "radiationModel.H"
 #include "SLGThermo.H"
@@ -48,7 +46,6 @@ Description
 #include "pressureControl.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
-#include "coarserGrid.H"
 #include "gasFilter.H"
 #include "sourceFilter.H"
 #include "scalarList.H"
@@ -58,7 +55,7 @@ Description
 
 int main(int argc, char *argv[])
 {
-    #include "postProcess.H"
+//     #include "postProcess.H"
 
 //     #include "addCheckCaseOptions.H"
 //     #include "setRootCase.H"
@@ -117,19 +114,6 @@ int main(int argc, char *argv[])
         
         timeFlag[1] = runTime.elapsedCpuTime();
         
-        if (useTFMGas)
-        {
-            parcelVolumeField = steelParcels.parcelVolumeField();
-            alphacavg = TFM.averagedAlphaField(parcelVolumeField);
-        
-            Ucavg = TFM.averagedField(Uc, alphacavg);
-            rhoavg = TFM.averagedField(rhoc, alphacavg);
-            Tavg = TFM.averagedField(T, alphacavg);
-            muavg = TFM.averagedField(thermo.mu(), alphacavg);
-            kappaavg = TFM.averagedField(thermo.kappa(), alphacavg);
-            Cpavg = TFM.averagedField(thermo.Cp(), alphacavg);
-        }
-        
         timeFlag[7] = runTime.elapsedCpuTime();
         
         if (useSourceFilter)
@@ -182,15 +166,6 @@ int main(int argc, char *argv[])
 
         fvScalarMatrix averagedSh = steelParcels.Sh(hee);
                 
-        if (useTFMSource)
-        {
-            vectorField& averagedSUIninterFeildRef = averagedSU.source();
-            averagedSUIninterFeildRef= TFM.averagedSource(averagedSUIninterFeildRef); 
-            
-            scalarField& averagedShIninterFeildRef = averagedSh.source();
-            averagedShIninterFeildRef = TFM.averagedSource(averagedShIninterFeildRef);
-        }
-        
         timeFlag[5] = runTime.elapsedCpuTime();
         
         #include "rhocEqn.H"
@@ -228,8 +203,8 @@ int main(int argc, char *argv[])
         timeCounting[1]+= timeFlag[1] - timeFlag[0];
         timeCounting[1]+= timeFlag[6] - timeFlag[5]; //gas solver
         timeCounting[2]+= timeFlag[3] - timeFlag[2]; //parcels solver
-        timeCounting[3]+= timeFlag[8] - timeFlag[3];
-        timeCounting[3]+= timeFlag[7] - timeFlag[1]; //gas average
+        timeCounting[3]+= timeFlag[8] - timeFlag[3]; //gas average
+        timeCounting[3]+= timeFlag[7] - timeFlag[1]; // deleted
         timeCounting[4]+= timeFlag[5] - timeFlag[8]; //source average
         
         

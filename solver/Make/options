@@ -10,7 +10,6 @@ EXE_INC = \
     -Ibasic/lnInclude \
     -I$(LIB_SRC)/lagrangian/distributionModels/lnInclude \
     -Iintermediate/lnInclude \
-    -IcoalCombustion/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I$(LIB_SRC)/transportModels/compressible/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
@@ -39,7 +38,6 @@ EXE_LIBS = \
     -llagrangian_fixedBed \
     -llagrangianIntermediate_fixedBed \
     -llagrangianTurbulence_fixedBed \
-    -lcoalCombustion_fixedBed \
     -lspecie \
     -lcompressibleTransportModels \
     -lfluidThermophysicalModels \

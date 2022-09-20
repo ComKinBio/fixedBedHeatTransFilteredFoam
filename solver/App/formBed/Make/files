@@ -1,3 +1,0 @@
-formBed.C
-
-EXE = $(FOAM_USER_APPBIN)/formBed

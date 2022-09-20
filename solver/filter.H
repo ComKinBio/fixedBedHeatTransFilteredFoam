@@ -13,8 +13,6 @@ IOdictionary CouplingDict
 
 const dictionary sourceFilterDict = CouplingDict.subDict("sourceFilter");
 const dictionary gasFilterDict = CouplingDict.subDict("gasFilter");
-const dictionary TFMDict = CouplingDict.subDict("TFM");
-const dictionary DEMFlagDict = CouplingDict.subDict("DEMFlag");
 
 //- make sourceFilter class
 
@@ -88,38 +86,6 @@ gasFilter gasFilterModel
 
 bool useGasFilter = readBool(gasFilterDict.lookup("useGasFilter"));
 bool useGasFilterImplicit = readBool(gasFilterDict.lookup("useImplicitLaplacian"));
-
-
-//- make TFM class
-
-bool useTFMGas = readBool(TFMDict.lookup("useTFMGas"));
-bool useTFMSource = readBool(TFMDict.lookup("useTFMSource"));
-
-vector gridOrigin;
-TFMDict.lookup("gridOrigin") >> gridOrigin;
-vector gridVertex;
-TFMDict.lookup("gridVertex") >> gridVertex;
-scalar gridSize = readScalar(TFMDict.lookup("gridSize"));
-
-coarserGrid TFM
-(
-    mesh,
-    gridOrigin,
-    gridVertex,
-    gridSize
-);
-
-
-// //- DEMFlag settings
-// bool useDEMFlag = readBool(DEMFlagDict.lookup("useDEMFlag"));
-// //in every fluid time step, DEM invoked from 0 to Max step (DEMStepMax)
-// label DEMStep = 0;
-// label DEMStepMax = readLabel(DEMFlagDict.lookup("DEMStepMax")); //requires input
-// 
-// //DEMInter is the fluid time step to reset DEMFlag again
-// scalar DEMInter = readScalar(DEMFlagDict.lookup("DEMInter"));//requires input
-// scalar DEMNextTime = 0.0;
-
 
 //- other settings
 bool radiationHeat = readBool(CouplingDict.lookup("radiationHeat"));
