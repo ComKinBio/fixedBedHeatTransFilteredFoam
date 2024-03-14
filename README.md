@@ -65,6 +65,7 @@ The model details are described in the published paper [[1]](#1). The model is d
 
 ### Colliding particle
 
+The [`basicThermoParcel`](https://github.com/ComKinBio/fixedBedHeatTransFilteredFoam/blob/main/solver/intermediate/parcels/derived/basicThermoParcel/basicThermoParcel.H) and the [`basicThermoCloud`](https://github.com/ComKinBio/fixedBedHeatTransFilteredFoam/blob/main/solver/intermediate/clouds/derived/basicThermoCloud/basicThermoCloud.H) are redefined to include the colliding Template layer. Since the model was aiming to calculated fixed-bed a `DEMFlag` was used to control the calculation frequency of colliding model (only the momentum colliding, the heat transfer due to contact which was embeded in the colloing model will be calculated every time step).
 
 ### Solver
 
