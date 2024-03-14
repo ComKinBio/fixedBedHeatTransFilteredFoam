@@ -60,13 +60,11 @@ The fixedBedHeatTransFilteredFoam is an extended solver based on the official "[
 
 ### Coupling method
 
-IBM (interfaces-based model) and MBM (mesh-based model) are two typical thermally thick particle models. IBM was proposed by Thunman et al. [[3]](#3). In some literature, it also refers as sharp interface model or layer-based model. The IBM used in this repo is based on work of Ström et al. [[2]](#2), and certain modifications are also adopted [[1]](#1). The particle is divided into 4 layers (wet wood, dry wood, char, and ash) by 3 inifinite thin converting fronts (drying, devolatilization, and char burnout). Each layer is assumed to be uniform. The heat and mass transfer between the layers and fronts are calculated. 
+The model details are described in the published paper [[1]](#1). The model is designed for the particle heat transfer when the particle size is much larger than the grid size.
 
 
 ### Colliding particle
-The new lib has two new templates which are inheritaged from the official Lagrangian lib. The ReactingMultiphaseIBMCloud template is inheritaged from [ReactingMultiphaseCloud](https://github.com/OpenFOAM/OpenFOAM-7/tree/master/src/lagrangian/intermediate/clouds/Templates/ReactingMultiphaseCloud) template, and the ReactingMultiphaseIBMParcel is inheritaged from [ReactingMultiphaseParcel](https://github.com/OpenFOAM/OpenFOAM-7/tree/master/src/lagrangian/intermediate/parcels/Templates/ReactingMultiphaseParcel). 
 
-Two submodels with RTS mechanism are added. The PyrolysisModel (which is modified from [DevolatilisationModel](https://github.com/OpenFOAM/OpenFOAM-7/tree/master/src/lagrangian/intermediate/submodels/ReactingMultiphase/DevolatilisationModel)) and the CharOxidizationModel (which is modified from [SurfaceReactionModel](https://github.com/OpenFOAM/OpenFOAM-7/tree/master/src/lagrangian/intermediate/submodels/ReactingMultiphase/SurfaceReactionModel)) are bundled with the reactingMultiphaseIBMCloud type. The reason to add these two submodels rather than using the original DevolatilisationModel and SurfaceReactionModel is that the pure vitrual functions in the original two has less access variables than wanted. 
 
 ### Solver
 
@@ -79,8 +77,6 @@ The case used in the paper is added as a test and tutorial case for this slover.
 <!-- Contributing -->
 
 ## Contributing
-
-This repo accepts updating. For example, correcting the coding style to the [OpenFOAM style](https://openfoam.org/dev/coding-style-guide/), adding particle shape submodel to [RTS mechanism](https://openfoamwiki.net/index.php/OpenFOAM_guide/runTimeSelection_mechanism), making submodels of thermally thick particle properties (currently hard coded)... ...
 
 If you have any contribution to this repo, please fork the repo and create a pull request (to dev). You can also simply open an issue with the tag "improvement".
 
